@@ -1,0 +1,8 @@
+# build intermediates
+film/audio/mix_raw.wav
+film/audio/music_stem.wav
+film/out/*draft*
+film/fonts/pretendard-full.ttf
+film/fonts/archivo-latin.woff2
+film/fonts/g.css
+film/tools/node_modules

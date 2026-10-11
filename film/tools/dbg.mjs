@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await browser.newPage();
+page.on('console', m => console.log('[page]', m.type(), m.text()));
+page.on('pageerror', e => console.log('[pageerror]', e.message));
+page.on('requestfailed', r => console.log('[reqfail]', r.url(), r.failure()?.errorText));
+await page.goto('http://127.0.0.1:8765/index.html');
+const r = await Promise.race([page.evaluate(() => window.ready.then(() => 'ok', e => 'err ' + e)), new Promise(r => setTimeout(() => r('timeout'), 40000))]);
+console.log('ready:', r);
+console.log(await page.evaluate(() => ({ fonts: document.fonts.size, vid: typeof wallVideo, rs: wallVideo && wallVideo.readyState, err: wallVideo && wallVideo.error && wallVideo.error.code })));
+await browser.close();
